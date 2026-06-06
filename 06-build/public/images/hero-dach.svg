@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Stilisiertes Schieferdach (Platzhalter)" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2b323b"/>
+      <stop offset="0.6" stop-color="#3a4149"/>
+      <stop offset="1" stop-color="#4a525b"/>
+    </linearGradient>
+    <linearGradient id="roofA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#262b31"/>
+      <stop offset="1" stop-color="#1a1d21"/>
+    </linearGradient>
+    <linearGradient id="roofB" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#333a42"/>
+      <stop offset="1" stop-color="#23282f"/>
+    </linearGradient>
+    <pattern id="slate" width="46" height="26" patternUnits="userSpaceOnUse" patternTransform="rotate(0)">
+      <rect width="46" height="26" fill="none"/>
+      <path d="M0 26 L23 6 L46 26" fill="none" stroke="#000" stroke-opacity="0.18" stroke-width="1.5"/>
+      <path d="M-23 26 L0 6 L23 26" fill="none" stroke="#000" stroke-opacity="0.18" stroke-width="1.5"/>
+      <path d="M23 26 L46 6 L69 26" fill="none" stroke="#000" stroke-opacity="0.18" stroke-width="1.5"/>
+    </pattern>
+  </defs>
+
+  <!-- Himmel -->
+  <rect width="1200" height="900" fill="url(#sky)"/>
+  <circle cx="980" cy="180" r="120" fill="#d9694b" fill-opacity="0.22"/>
+  <circle cx="980" cy="180" r="70" fill="#d9694b" fill-opacity="0.35"/>
+
+  <!-- Linke Dachfläche -->
+  <polygon points="0,560 560,300 560,900 0,900" fill="url(#roofA)"/>
+  <polygon points="0,560 560,300 560,900 0,900" fill="url(#slate)" opacity="0.9"/>
+  <!-- Rechte Dachfläche -->
+  <polygon points="560,300 1200,560 1200,900 560,900" fill="url(#roofB)"/>
+  <polygon points="560,300 1200,560 1200,900 560,900" fill="url(#slate)" opacity="0.7"/>
+
+  <!-- Firstlinie -->
+  <polyline points="0,560 560,300 1200,560" fill="none" stroke="#0f1114" stroke-width="10" stroke-linejoin="round"/>
+  <polyline points="0,548 560,288 1200,548" fill="none" stroke="#5a626b" stroke-width="3" stroke-opacity="0.5"/>
+
+  <!-- Schornstein -->
+  <g>
+    <rect x="360" y="300" width="92" height="150" fill="#1a1d21"/>
+    <rect x="360" y="300" width="92" height="150" fill="url(#slate)" opacity="0.4"/>
+    <rect x="348" y="290" width="116" height="22" fill="#23282f"/>
+    <rect x="348" y="290" width="116" height="22" fill="none" stroke="#0f1114" stroke-width="2"/>
+  </g>
+
+  <!-- Akzent-Dachlinie -->
+  <polyline points="560,300 560,900" stroke="#b23a22" stroke-width="4" stroke-opacity="0.55"/>
+</svg>

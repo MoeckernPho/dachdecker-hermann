@@ -1,0 +1,117 @@
+---
+import { Menu, X, Phone } from "@lucide/astro";
+import Logo from "./Logo.astro";
+import { mainNav, nap } from "../data/site";
+
+// Aktive Route bestimmen (Trailing-Slash-tolerant).
+const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const isActive = (href: string) => {
+  const h = href.replace(/\/+$/, "") || "/";
+  return h === "/" ? current === "/" : current === h || current.startsWith(h + "/");
+};
+---
+
+<header class="sticky top-0 z-50 overflow-visible border-b border-brand-slate-2 bg-brand-ink/95 backdrop-blur">
+  <nav class="container-site flex h-16 items-center justify-between gap-4 overflow-visible md:h-[4.5rem]" aria-label="Hauptnavigation">
+    <a href="/" class="relative z-10 inline-flex shrink-0 rounded-btn" aria-label="Startseite">
+      <Logo tone="light" size="header" />
+    </a>
+
+    {/* Desktop-Navigation */}
+    <ul class="hidden items-center gap-1 lg:flex">
+      {
+        mainNav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? "page" : undefined}
+              class:list={[
+                "relative inline-flex items-center px-3 py-2 font-display text-sm font-bold tracking-wide text-brand-slate-muted transition-colors after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:bg-brand-accent after:transition-transform",
+                isActive(item.href)
+                  ? "text-white after:scale-x-100"
+                  : "hover:text-white after:scale-x-0",
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <a
+        href={nap.phoneHref}
+        class="hidden items-center gap-2 font-display text-sm font-bold text-white sm:inline-flex md:mr-1"
+      >
+        <Phone size={18} stroke-width={2} aria-hidden="true" />
+        <span class="tabular-nums">{nap.phoneDisplay}</span>
+      </a>
+      <a href="/kontakt" class="btn btn-primary hidden text-sm sm:inline-flex">Anfrage senden</a>
+
+      {/* Mobile-Menü-Button */}
+      <button
+        type="button"
+        id="menu-toggle"
+        class="rounded-btn p-2 text-white lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Menü öffnen"
+      >
+        <Menu size={26} stroke-width={2} aria-hidden="true" class="block" id="menu-icon-open" />
+        <X size={26} stroke-width={2} aria-hidden="true" class="hidden" id="menu-icon-close" />
+      </button>
+    </div>
+  </nav>
+
+  {/* Mobile-Navigation */}
+  <div id="mobile-menu" class="hidden border-t border-brand-slate-2 bg-brand-ink lg:hidden">
+    <ul class="container-site flex flex-col gap-1 py-3">
+      {
+        mainNav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? "page" : undefined}
+              class:list={[
+                "flex border-l-2 px-4 py-3 font-display font-bold tracking-wide transition-colors",
+                isActive(item.href)
+                  ? "border-brand-accent text-white"
+                  : "border-transparent text-brand-slate-muted hover:text-white",
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="pt-4">
+        <a href="/kontakt" class="btn btn-primary w-full">Anfrage senden</a>
+      </li>
+      <li class="pt-2">
+        <a href={nap.phoneHref} class="btn btn-outline-invert w-full">
+          <Phone size={18} stroke-width={2} aria-hidden="true" />
+          {nap.phoneDisplay}
+        </a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  const iconOpen = document.getElementById("menu-icon-open");
+  const iconClose = document.getElementById("menu-icon-close");
+
+  if (toggle && menu && iconOpen && iconClose) {
+    toggle.addEventListener("click", () => {
+      const open = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!open));
+      toggle.setAttribute("aria-label", open ? "Menü öffnen" : "Menü schließen");
+      menu.classList.toggle("hidden", open);
+      iconOpen.classList.toggle("hidden", !open);
+      iconClose.classList.toggle("hidden", open);
+    });
+  }
+</script>

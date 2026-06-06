@@ -1,0 +1,24 @@
+---
+import Icon from "./Icon.astro";
+import { usps } from "../data/site";
+---
+
+<section aria-label="Warum wir" class="border-b border-brand-border bg-brand-surface-2">
+  <ul class="container-site grid gap-px py-2 sm:grid-cols-2 lg:grid-cols-4">
+    {
+      usps.map((usp) => (
+        <li class="flex items-start gap-3 px-1 py-5 sm:px-4">
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-btn bg-brand-ink text-brand-ember">
+            <Icon name={usp.icon} size={22} />
+          </span>
+          <span>
+            <span class="block font-display text-sm font-extrabold uppercase tracking-wide text-brand-ink">
+              {usp.title}
+            </span>
+            <span class="mt-0.5 block text-sm text-brand-muted">{usp.text}</span>
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</section>

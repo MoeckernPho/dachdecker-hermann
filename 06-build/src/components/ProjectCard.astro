@@ -1,0 +1,69 @@
+---
+import type { Project } from "../data/site";
+
+interface Props {
+  project: Project;
+  index?: number;
+  loading?: "eager" | "lazy";
+}
+const { project, index, loading = "lazy" } = Astro.props;
+const isLightboxEnabled = typeof index === "number";
+---
+
+<article class="card group overflow-hidden">
+  <div class="relative aspect-[4/3] overflow-hidden bg-brand-surface-2">
+    {
+      isLightboxEnabled ? (
+        <button
+          type="button"
+          class="h-full w-full cursor-zoom-in"
+          data-project-lightbox-trigger
+          data-project-index={index}
+          aria-haspopup="dialog"
+          aria-controls="project-lightbox"
+          aria-label={`${project.title} groß anzeigen`}
+        >
+          <img
+            src={project.image}
+            alt={project.alt}
+            width="800"
+            height="600"
+            loading={loading}
+            decoding="async"
+            class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+          />
+        </button>
+      ) : (
+        <img
+          src={project.image}
+          alt={project.alt}
+          width="800"
+          height="600"
+          loading={loading}
+          decoding="async"
+          class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+        />
+      )
+    }
+    {
+      project.location && (
+        <span class="absolute left-3 top-3 rounded-btn bg-brand-ink/85 px-2.5 py-1 font-display text-xs font-bold text-white backdrop-blur">
+          {project.location}
+        </span>
+      )
+    }
+  </div>
+  <div class="p-5">
+    <h3 class="text-lg text-brand-ink">{project.title}</h3>
+    <p class="mt-2 text-sm text-brand-muted">{project.summary}</p>
+    <ul class="mt-4 flex flex-wrap gap-2">
+      {
+        project.tags.map((tag) => (
+          <li class="rounded-btn border border-brand-border bg-brand-surface px-2.5 py-1 font-display text-xs font-bold uppercase tracking-wide text-brand-muted">
+            {tag}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</article>

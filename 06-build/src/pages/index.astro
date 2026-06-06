@@ -1,0 +1,128 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import TrustStrip from "../components/TrustStrip.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import CtaSection from "../components/CtaSection.astro";
+import { ArrowRight, Check } from "@lucide/astro";
+import { services, projects } from "../data/site";
+
+const title = "Dachdecker in Rackwitz | Meisterbetrieb André Herrmann";
+const description =
+  "Dachdeckermeisterbetrieb André Herrmann in Rackwitz: Dachdeckerarbeiten, Schiefer und " +
+  "Dachsanierung im Raum Rackwitz und Leipzig. Zuverlässig und termingerecht. Hier arbeitet der Meister noch selbst.";
+
+const ueberUnsPunkte = [
+  "Meisterbetrieb mit persönlicher Betreuung",
+  "Saubere Ausführung nach neuestem Stand der Technik",
+  "Termintreue und faire, nachvollziehbare Angebote",
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Hero />
+  <TrustStrip />
+
+  {/* Leistungen-Teaser */}
+  <section class="bg-brand-surface py-16 sm:py-20">
+    <div class="container-site">
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="eyebrow text-brand-accent">
+            <span class="inline-block h-px w-8 bg-brand-accent"></span>
+            Unsere Leistungen
+          </p>
+          <h2 class="mt-3 max-w-2xl text-3xl sm:text-4xl">
+            Alles rund ums Dach aus einer Meisterhand
+          </h2>
+        </div>
+        <a
+          href="/leistungen"
+          class="inline-flex items-center gap-2 font-display text-sm font-bold text-brand-accent hover:text-brand-accent-strong"
+        >
+          Alle Leistungen
+          <ArrowRight size={16} stroke-width={2.25} aria-hidden="true" />
+        </a>
+      </div>
+
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {services.map((service) => <ServiceCard service={service} />)}
+      </div>
+    </div>
+  </section>
+
+  {/* Projekte-Vorschau */}
+  <section class="border-y border-brand-border bg-brand-surface-2 py-16 sm:py-20">
+    <div class="container-site">
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="eyebrow text-brand-accent">
+            <span class="inline-block h-px w-8 bg-brand-accent"></span>
+            Referenzen
+          </p>
+          <h2 class="mt-3 max-w-2xl text-3xl sm:text-4xl">Dächer, die für sich sprechen</h2>
+        </div>
+        <a
+          href="/projekte"
+          class="inline-flex items-center gap-2 font-display text-sm font-bold text-brand-accent hover:text-brand-accent-strong"
+        >
+          Alle Projekte
+          <ArrowRight size={16} stroke-width={2.25} aria-hidden="true" />
+        </a>
+      </div>
+
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {projects.slice(0, 4).map((project) => <ProjectCard project={project} />)}
+      </div>
+    </div>
+  </section>
+
+  {/* Über-uns-Teaser */}
+  <section class="bg-brand-surface py-16 sm:py-20">
+    <div class="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+      <div class="relative">
+        <div class="overflow-hidden rounded-card border border-brand-border shadow-card">
+          <img
+            src="/images/ueber-uns.svg"
+            alt="Porträt-Platzhalter: Dachdeckermeister André Herrmann auf der Baustelle"
+            width="800"
+            height="800"
+            loading="lazy"
+            decoding="async"
+            class="aspect-square w-full object-cover"
+          />
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow text-brand-accent">
+          <span class="inline-block h-px w-8 bg-brand-accent"></span>
+          Über uns
+        </p>
+        <h2 class="mt-3 text-3xl sm:text-4xl">Bei uns sind Sie in guten Händen</h2>
+        <p class="mt-5 text-lg text-brand-muted">
+          Als Meisterbetrieb stehe ich, André Herrmann, persönlich für Qualität und Termintreue
+          ein. Jeder Auftrag wird sorgfältig und nach neuestem Stand der Technik ausgeführt.
+        </p>
+        <ul class="mt-7 space-y-3">
+          {
+            ueberUnsPunkte.map((punkt) => (
+              <li class="flex items-start gap-3">
+                <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-accent text-white">
+                  <Check size={15} stroke-width={3} aria-hidden="true" />
+                </span>
+                <span class="text-brand-ink">{punkt}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <a href="/ueber-uns" class="btn btn-outline mt-8">
+          Mehr über den Betrieb
+          <ArrowRight size={18} stroke-width={2.25} aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CtaSection />
+</BaseLayout>

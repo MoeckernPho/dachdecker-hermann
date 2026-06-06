@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+
+const title = "Impressum | Dachdeckermeisterbetrieb André Herrmann";
+const description = "Impressum des Dachdeckermeisterbetriebs André Herman in Rackwitz.";
+---
+
+<BaseLayout title={title} description={description} noindex={true}>
+  <PageHeader eyebrow="Rechtliches" title="Impressum" />
+
+  <section class="bg-brand-surface py-14 sm:py-16">
+    <div class="container-site prose-legal">
+      <p>
+        André Herman<br />
+        Dachdeckermeisterbetrieb<br />
+        André Herman<br />
+        Alte Hauptstraße 2<br />
+        04519 Rackwitz
+      </p>
+
+      <h2>Kontakt</h2>
+      <p>
+        Telefon: <a href="tel:+4934202300017">+49 (0)34202 300017</a><br />
+        E-Mail: <a href="mailto:info@dachdecker-hermann.de">info(at)dachdecker-hermann.de</a>
+      </p>
+
+      <h2>Verbraucherstreitbeilegung/Universalschlichtungsstelle</h2>
+      <p>
+        Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
+        Verbraucherschlichtungsstelle teilzunehmen.
+      </p>
+
+      <p>Quelle: <a href="https://www.e-recht24.de" target="_blank" rel="noopener noreferrer">e-recht24.de</a></p>
+    </div>
+  </section>
+</BaseLayout>

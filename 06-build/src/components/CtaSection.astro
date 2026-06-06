@@ -1,0 +1,32 @@
+---
+import { ArrowRight, Phone } from "@lucide/astro";
+import { nap } from "../data/site";
+
+interface Props {
+  title?: string;
+  text?: string;
+}
+const {
+  title = "Bereit für ein Dach in Meisterhand?",
+  text = "Erzählen Sie uns von Ihrem Vorhaben. Sie erhalten eine ehrliche Einschätzung und ein faires Angebot.",
+} = Astro.props;
+---
+
+<section class="slate-texture relative overflow-hidden text-white">
+  <div class="container-site flex flex-col items-start gap-8 py-14 lg:flex-row lg:items-center lg:justify-between lg:py-16">
+    <div class="max-w-2xl">
+      <h2 class="text-3xl sm:text-4xl">{title}</h2>
+      <p class="mt-4 text-brand-slate-muted">{text}</p>
+    </div>
+    <div class="flex w-full flex-col gap-3 sm:flex-row lg:w-auto lg:shrink-0 lg:flex-col xl:flex-row">
+      <a href="/kontakt" class="btn btn-primary">
+        Anfrage senden
+        <ArrowRight size={18} stroke-width={2.25} aria-hidden="true" />
+      </a>
+      <a href={nap.phoneHref} class="btn btn-outline-invert">
+        <Phone size={18} stroke-width={2.25} aria-hidden="true" />
+        {nap.phoneDisplay}
+      </a>
+    </div>
+  </div>
+</section>

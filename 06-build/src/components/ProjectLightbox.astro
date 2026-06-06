@@ -1,0 +1,125 @@
+---
+import { ChevronLeft, ChevronRight, X } from "@lucide/astro";
+import type { Project } from "../data/site";
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+---
+
+<dialog
+  id="project-lightbox"
+  class="m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-6xl overflow-hidden rounded-card bg-brand-ink p-0 text-white shadow-raise backdrop:bg-brand-ink/90"
+  aria-labelledby="project-lightbox-title"
+  data-projects={JSON.stringify(projects)}
+>
+  <div class="flex max-h-[calc(100dvh-2rem)] flex-col">
+    <div class="flex items-center justify-between gap-4 border-b border-brand-slate-2 px-4 py-3">
+      <h2 id="project-lightbox-title" class="min-w-0 truncate text-lg"></h2>
+      <button
+        type="button"
+        class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-btn text-white transition-colors hover:bg-brand-slate"
+        data-project-lightbox-close
+        aria-label="Großansicht schließen"
+      >
+        <X size={24} stroke-width={2} aria-hidden="true" />
+      </button>
+    </div>
+
+    <div class="relative flex min-h-0 flex-1 items-center justify-center bg-black/35">
+      <img
+        src=""
+        alt=""
+        class="max-h-[calc(100dvh-8.5rem)] w-full object-contain"
+        data-project-lightbox-image
+      />
+
+      <button
+        type="button"
+        class="absolute left-2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-brand-ink/85 text-white transition-colors hover:bg-brand-accent sm:left-4"
+        data-project-lightbox-previous
+        aria-label="Vorheriges Projekt"
+      >
+        <ChevronLeft size={30} stroke-width={2} aria-hidden="true" />
+      </button>
+      <button
+        type="button"
+        class="absolute right-2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-brand-ink/85 text-white transition-colors hover:bg-brand-accent sm:right-4"
+        data-project-lightbox-next
+        aria-label="Nächstes Projekt"
+      >
+        <ChevronRight size={30} stroke-width={2} aria-hidden="true" />
+      </button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector("#project-lightbox");
+
+  if (dialog instanceof HTMLDialogElement) {
+    const projects = JSON.parse(dialog.dataset.projects ?? "[]") as Array<{
+      title: string;
+      image: string;
+      alt: string;
+    }>;
+    const image = dialog.querySelector("[data-project-lightbox-image]");
+    const title = dialog.querySelector("#project-lightbox-title");
+    const closeButton = dialog.querySelector("[data-project-lightbox-close]");
+    const previousButton = dialog.querySelector("[data-project-lightbox-previous]");
+    const nextButton = dialog.querySelector("[data-project-lightbox-next]");
+    const triggers = document.querySelectorAll("[data-project-lightbox-trigger]");
+    let currentIndex = 0;
+    let returnFocus: HTMLButtonElement | null = null;
+
+    const showProject = (index: number) => {
+      currentIndex = (index + projects.length) % projects.length;
+      const project = projects[currentIndex];
+
+      if (image instanceof HTMLImageElement && title) {
+        image.src = project.image;
+        image.alt = project.alt;
+        title.textContent = project.title;
+      }
+    };
+
+    const openLightbox = (trigger: HTMLButtonElement) => {
+      const index = Number(trigger.dataset.projectIndex);
+      returnFocus = trigger;
+      showProject(index);
+      dialog.showModal();
+      if (closeButton instanceof HTMLElement) closeButton.focus();
+    };
+
+    triggers.forEach((trigger) => {
+      if (trigger instanceof HTMLButtonElement) {
+        trigger.addEventListener("click", () => openLightbox(trigger));
+      }
+    });
+
+    closeButton?.addEventListener("click", () => dialog.close());
+    previousButton?.addEventListener("click", () => showProject(currentIndex - 1));
+    nextButton?.addEventListener("click", () => showProject(currentIndex + 1));
+
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    dialog.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        showProject(currentIndex - 1);
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        showProject(currentIndex + 1);
+      }
+    });
+
+    dialog.addEventListener("close", () => {
+      if (returnFocus instanceof HTMLElement) returnFocus.focus();
+    });
+  }
+</script>

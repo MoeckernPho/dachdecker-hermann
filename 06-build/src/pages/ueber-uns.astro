@@ -1,0 +1,104 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import CtaSection from "../components/CtaSection.astro";
+import Icon from "../components/Icon.astro";
+import { Check } from "@lucide/astro";
+import { usps } from "../data/site";
+
+const title = "Über uns | Dachdeckermeisterbetrieb André Herrmann, Rackwitz";
+const description =
+  "Lernen Sie den Dachdeckermeisterbetrieb André Herrmann aus Rackwitz kennen: ein Meisterbetrieb, " +
+  "bei dem Qualität, Termintreue und persönliche Betreuung im Mittelpunkt stehen.";
+
+const werte = [
+  "Persönliche Betreuung vom Aufmaß bis zur Abnahme",
+  "Saubere, gewissenhafte Ausführung jeder Arbeit",
+  "Verlässliche Termine und transparente Angebote",
+  "Regionale Verbundenheit im Raum Rackwitz und Leipzig",
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <PageHeader
+    eyebrow="Über uns"
+    title="Ein Meisterbetrieb, der sein Handwerk versteht"
+    lead="Seriös, bodenständig und mit Anspruch an saubere Arbeit. So verstehen wir unseren Beruf."
+  />
+
+  <section class="bg-brand-surface py-16 sm:py-20">
+    <div class="container-site grid items-start gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+      <div class="lg:sticky lg:top-24">
+        <div class="overflow-hidden rounded-card border border-brand-border shadow-card">
+          <img
+            src="/images/ueber-uns.svg"
+            alt="Porträt-Platzhalter: Dachdeckermeister André Herrmann"
+            width="800"
+            height="800"
+            loading="lazy"
+            decoding="async"
+            class="aspect-square w-full object-cover"
+          />
+        </div>
+        <p class="mt-3 text-sm text-brand-muted">
+          André Herrmann, Dachdeckermeister <span class="italic">(Foto folgt)</span>
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-3xl sm:text-4xl">Bei uns sind Sie in guten Händen</h2>
+        <div class="mt-5 space-y-4 text-lg text-brand-muted">
+          <p>
+            Als Meisterbetrieb stehe ich, André Herrmann, persönlich für Qualität und Termintreue
+            ein. Jeder Auftrag wird sorgfältig und nach neuestem Stand der Technik ausgeführt, vom
+            ersten Gespräch bis zur sauberen Übergabe.
+          </p>
+          <p>
+            Hohe Zuverlässigkeit und gute Qualität zeichnen meine Dachdeckerfirma aus. Bei uns
+            arbeitet der Meister noch selbst mit. Das spüren Sie an jedem Detail und an einer
+            ehrlichen, verständlichen Beratung.
+          </p>
+          <p class="text-brand-ink">
+            <span class="italic">Hinweis: Person, Historie und Team können hier ergänzt werden,
+            sobald der Kunde die Inhalte freigegeben hat.</span>
+          </p>
+        </div>
+
+        <ul class="mt-8 grid gap-3 sm:grid-cols-2">
+          {
+            werte.map((wert) => (
+              <li class="flex items-start gap-3">
+                <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-accent text-white">
+                  <Check size={15} stroke-width={3} aria-hidden="true" />
+                </span>
+                <span class="text-brand-ink">{wert}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {/* Werte-Streifen */}
+  <section class="border-t border-brand-border bg-brand-surface-2 py-14">
+    <div class="container-site">
+      <h2 class="text-2xl sm:text-3xl">Worauf Sie sich verlassen können</h2>
+      <ul class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          usps.map((usp) => (
+            <li class="card p-6">
+              <span class="flex h-11 w-11 items-center justify-center rounded-btn bg-brand-ink text-brand-ember">
+                <Icon name={usp.icon} size={22} />
+              </span>
+              <h3 class="mt-4 text-lg text-brand-ink">{usp.title}</h3>
+              <p class="mt-1 text-sm text-brand-muted">{usp.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CtaSection title="Lernen wir uns kennen" />
+</BaseLayout>

@@ -1,0 +1,78 @@
+---
+/**
+ * SEO-Meta + Social-Preview + JSON-LD (LocalBusiness / RoofingContractor).
+ * Wird im <head> des BaseLayout eingebunden. NAP kommt aus der zentralen site.ts,
+ * damit strukturierte Daten und sichtbare Angaben garantiert übereinstimmen.
+ */
+import { site, nap, openingHours } from "../data/site";
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  /** Auf rechtlichen/dünnen Seiten true setzen, falls nicht indexiert werden soll. */
+  noindex?: boolean;
+}
+
+const { title, description = site.defaultDescription, image = site.ogImage, noindex = false } =
+  Astro.props;
+
+// Canonical + absolute Bild-URL aus astro.config `site`.
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).toString();
+const imageUrl = new URL(image, Astro.site ?? site.url).toString();
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "RoofingContractor",
+  "@id": `${site.url}/#business`,
+  name: nap.company,
+  description: site.defaultDescription,
+  url: site.url,
+  telephone: nap.phoneHref.replace("tel:", ""),
+  email: nap.email,
+  image: imageUrl,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: nap.street,
+    postalCode: nap.postalCode,
+    addressLocality: nap.city,
+    addressRegion: nap.region,
+    addressCountry: nap.country,
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: nap.geo.lat,
+    longitude: nap.geo.lng,
+  },
+  areaServed: site.areaServed.map((name) => ({ "@type": "City", name })),
+  openingHoursSpecification: openingHours.spec.map((s) => ({
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: s.days,
+    opens: s.opens,
+    closes: s.closes,
+  })),
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+{/* Open Graph */}
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.shortName} />
+<meta property="og:locale" content={site.locale} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+
+{/* Twitter */}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+{/* JSON-LD LocalBusiness */}
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />

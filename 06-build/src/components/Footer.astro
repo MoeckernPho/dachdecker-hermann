@@ -1,0 +1,101 @@
+---
+import { Phone, Mail, MapPin } from "@lucide/astro";
+import Logo from "./Logo.astro";
+import { nap, mainNav, legalNav, openingHours } from "../data/site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-brand-ink text-brand-slate-muted">
+  <div class="container-site grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
+    {/* Marke + Kurzbeschreibung */}
+    <div class="lg:col-span-1">
+      <Logo tone="light" />
+      <p class="mt-4 max-w-xs text-sm leading-relaxed">
+        Dachdecker-, Schiefer- und Sanierungsarbeiten im Raum Rackwitz und Leipzig.
+        zuverlässig und vom Meister.
+      </p>
+    </div>
+
+    {/* Kontakt / NAP */}
+    <div>
+      <h2 class="eyebrow text-white">Kontakt</h2>
+      <address class="mt-4 space-y-3 text-sm not-italic">
+        <p class="flex items-start gap-3">
+          <MapPin size={18} stroke-width={1.75} aria-hidden="true" class="mt-0.5 shrink-0 text-brand-ember" />
+          <span>
+            {nap.company}<br />
+            {nap.street}<br />
+            {nap.postalCode}&nbsp;{nap.city}
+          </span>
+        </p>
+        <p class="flex items-center gap-3">
+          <Phone size={18} stroke-width={1.75} aria-hidden="true" class="shrink-0 text-brand-ember" />
+          <a href={nap.phoneHref} class="text-white hover:text-brand-ember">{nap.phoneDisplay}</a>
+        </p>
+        <p class="flex items-center gap-3">
+          <Mail size={18} stroke-width={1.75} aria-hidden="true" class="shrink-0 text-brand-ember" />
+          <a href={nap.emailHref} class="break-all text-white hover:text-brand-ember">{nap.email}</a>
+        </p>
+      </address>
+    </div>
+
+    {/* Navigation */}
+    <div>
+      <h2 class="eyebrow text-white">Seiten</h2>
+      <ul class="mt-4 space-y-2 text-sm">
+        {
+          mainNav.map((item) => (
+            <li>
+              <a href={item.href} class="hover:text-white">{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    {/* Öffnungszeiten */}
+    <div>
+      <h2 class="eyebrow text-white">Öffnungszeiten</h2>
+      <ul class="mt-4 space-y-2 text-sm">
+        {
+          openingHours.display.map((row) => (
+            <li class="flex justify-between gap-4">
+              <span>{row.days}</span>
+              <span class="text-white">{row.hours}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-brand-slate-2">
+    <div
+      class="container-site flex flex-col items-start justify-between gap-3 py-6 text-xs sm:flex-row sm:items-center"
+    >
+      <p>© {year} {nap.company}. Alle Rechte vorbehalten.</p>
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+        <ul class="flex flex-wrap gap-x-6 gap-y-2">
+          {
+            legalNav.map((item) => (
+              <li>
+                <a href={item.href} class="hover:text-white">{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+        <p>
+          Webdesign &amp; Entwicklung:
+          <a
+            href="https://pho-makes-it.de/"
+            rel="author external"
+            class="text-white underline decoration-brand-slate-muted hover:decoration-brand-ember"
+          >
+            Pho makes IT
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

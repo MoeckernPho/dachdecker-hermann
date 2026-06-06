@@ -1,0 +1,304 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Lokale Schriften (SIL OFL, self-hosted), kein Google-Fonts-CDN.
+   Dateien in /public/fonts/. Hauptschnitte werden im <head> preloaded.
+   ========================================================================== */
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/Archivo-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("/fonts/Archivo-800.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/SourceSans3-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/SourceSans3-600.woff2") format("woff2");
+}
+
+/* ==========================================================================
+   Design-Tokens: Richtung „Schiefer & Stahl"
+   Anthrazit/Schiefer-Primär, Ziegelrot-Akzent, warmes Off-White.
+   Semantische Utilities: bg-brand-ink, text-brand-accent, font-display, rounded-card …
+   ========================================================================== */
+@theme {
+  /* Schriften */
+  --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Farben: dunkel (Schiefer/Anthrazit) */
+  --color-brand-ink: #1a1d21; /* Anthrazit: dunkle Bänder + Fließtext auf Hell */
+  --color-brand-slate: #23282f; /* Schiefer: Karten/Flächen auf Dunkel */
+  --color-brand-slate-2: #333a42; /* Linien/Borders auf Dunkel */
+  --color-brand-slate-muted: #aeb4bb; /* Sekundärtext auf Dunkel */
+
+  /* Farben: Akzent (Ziegelrot) */
+  --color-brand-accent: #b23a22; /* CTA-Flächen, weiße Schrift (AA) */
+  --color-brand-accent-strong: #8f2c18; /* hover/active */
+  --color-brand-ember: #d9694b; /* Akzenttext auf dunklem Grund (AA) */
+
+  /* Farben: hell (warmes Off-White) */
+  --color-brand-surface: #f4f1ec; /* Seitenhintergrund */
+  --color-brand-surface-2: #eae4da; /* abgesetzte Flächen */
+  --color-brand-border: #ded7cb; /* Borders auf Hell */
+  --color-brand-muted: #5a616a; /* Sekundärtext auf Hell (AA) */
+  --color-brand-paper: #ffffff;
+
+  /* Radius */
+  --radius-card: 6px;
+  --radius-btn: 4px;
+
+  /* Schatten: hart/dezent, „solide" */
+  --shadow-card: 0 1px 0 0 rgba(26, 29, 33, 0.04), 0 18px 40px -28px rgba(26, 29, 33, 0.45);
+  --shadow-raise: 0 24px 48px -24px rgba(26, 29, 33, 0.55);
+}
+
+/* ==========================================================================
+   Basis-Styles
+   ========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-brand-surface);
+    color: var(--color-brand-ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  /* Sichtbarer Fokus für Tastatur-Navigation */
+  :focus-visible {
+    outline: 3px solid var(--color-brand-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  a {
+    color: inherit;
+    text-underline-offset: 3px;
+  }
+}
+
+/* ==========================================================================
+   Komponenten-nahe Klassen (wiederkehrende Muster, nicht jedes Mal neu)
+   ========================================================================== */
+@layer components {
+  /* Layout-Container */
+  .container-site {
+    width: 100%;
+    max-width: 75rem; /* 1200px */
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-site {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Section-Label (Archivo, Uppercase, Tracking) */
+  .eyebrow {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    padding: 0.9rem 1.5rem;
+    border-radius: var(--radius-btn);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease,
+      transform 0.18s ease, box-shadow 0.18s ease;
+    text-decoration: none;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-primary {
+    background-color: var(--color-brand-accent);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-brand-accent-strong);
+  }
+
+  /* Outline auf hellem Grund */
+  .btn-outline {
+    border-color: var(--color-brand-ink);
+    color: var(--color-brand-ink);
+    background-color: transparent;
+  }
+  .btn-outline:hover {
+    background-color: var(--color-brand-ink);
+    color: #fff;
+  }
+
+  /* Outline auf dunklem Grund */
+  .btn-outline-invert {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #fff;
+    background-color: transparent;
+  }
+  .btn-outline-invert:hover {
+    background-color: #fff;
+    color: var(--color-brand-ink);
+    border-color: #fff;
+  }
+
+  /* Karten */
+  .card {
+    background-color: var(--color-brand-paper);
+    border: 1px solid var(--color-brand-border);
+    border-radius: var(--radius-card);
+  }
+
+  /* Diagonale „Dachlinie": Leitmotiv für Section-Übergänge.
+     Wird auf ein leeres Element gelegt, das zwei farbige Bänder trennt. */
+  .roofline {
+    --roofline-h: 56px;
+    height: var(--roofline-h);
+    width: 100%;
+    display: block;
+  }
+
+  /* „Schiefer"-Textur: feine diagonale Linien für dunkle Bänder (Atmosphäre/Tiefe) */
+  .slate-texture {
+    background-color: var(--color-brand-ink);
+    background-image:
+      radial-gradient(120% 120% at 80% 0%, rgba(217, 105, 75, 0.1) 0%, transparent 45%),
+      repeating-linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.025) 0px,
+        rgba(255, 255, 255, 0.025) 1px,
+        transparent 1px,
+        transparent 11px
+      );
+  }
+
+  /* Gestaffelte Einblend-Animation beim Laden (high-impact, einmalig) */
+  .rise {
+    animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rise {
+      animation: none;
+    }
+  }
+
+  /* Prose für Rechtstexte */
+  .prose-legal {
+    max-width: 48rem;
+  }
+  .prose-legal h2 {
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose-legal h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .prose-legal h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .prose-legal p,
+  .prose-legal ul {
+    margin-bottom: 1rem;
+    color: var(--color-brand-muted);
+  }
+  .prose-legal ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+  .prose-legal a {
+    color: var(--color-brand-accent);
+    text-decoration: underline;
+  }
+  .prose-legal strong {
+    color: var(--color-brand-ink);
+  }
+}

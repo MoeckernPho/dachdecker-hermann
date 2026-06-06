@@ -1,0 +1,78 @@
+---
+import { ArrowRight, Phone, ShieldCheck } from "@lucide/astro";
+import { nap } from "../data/site";
+---
+
+<section class="slate-texture relative overflow-hidden text-white">
+  {/* Diagonale „Dachlinie" als unterer Abschluss zum hellen Bereich */}
+  <div
+    class="container-site grid items-center gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:py-24"
+  >
+    <div>
+      <p class="eyebrow rise text-brand-ember" style="animation-delay:0ms">
+        <span class="h-px w-8 bg-brand-ember"></span>
+        Dachdeckermeisterbetrieb · Rackwitz &amp; Leipzig
+      </p>
+
+      <h1
+        class="rise mt-5 text-[2.6rem] leading-[0.98] sm:text-6xl lg:text-[4.25rem]"
+        style="animation-delay:80ms"
+      >
+        Ihr Dach in<br /><span class="text-brand-ember">Meisterhand</span>
+      </h1>
+
+      <p class="rise mt-6 max-w-xl text-lg text-brand-slate-muted" style="animation-delay:160ms">
+        Dachdecker-, Schiefer- und Sanierungsarbeiten im Raum Rackwitz und Leipzig.
+        zuverlässig, termingerecht und nach neuestem Stand der Technik.
+      </p>
+
+      <div class="rise mt-8 flex flex-col gap-3 sm:flex-row" style="animation-delay:240ms">
+        <a href="/kontakt" class="btn btn-primary">
+          Anfrage senden
+          <ArrowRight size={18} stroke-width={2.25} aria-hidden="true" />
+        </a>
+        <a href={nap.phoneHref} class="btn btn-outline-invert">
+          <Phone size={18} stroke-width={2.25} aria-hidden="true" />
+          Anrufen
+        </a>
+      </div>
+
+      <p
+        class="rise mt-9 inline-flex items-center gap-3 border-l-2 border-brand-accent pl-4 font-display text-base font-bold text-white"
+        style="animation-delay:320ms"
+      >
+        <ShieldCheck size={20} stroke-width={2} aria-hidden="true" class="text-brand-ember" />
+        „Hier arbeitet der Meister noch selbst."
+      </p>
+    </div>
+
+    {/* Bild-Panel mit diagonalem Dach-Zuschnitt + Trust-Karte */}
+    <div class="rise relative" style="animation-delay:200ms">
+      <div
+        class="relative aspect-[4/3] overflow-hidden rounded-card border border-brand-slate-2 shadow-raise"
+      >
+        <img
+          src="/images/home.png"
+          alt="Dachdecker bei Arbeiten an einem roten Ziegeldach"
+          width="388"
+          height="273"
+          class="h-full w-full object-cover"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+
+      <div
+        class="absolute -bottom-5 left-4 flex items-center gap-3 rounded-card border border-brand-border bg-brand-paper px-4 py-3 text-brand-ink shadow-raise sm:left-6"
+      >
+        <span class="flex h-10 w-10 items-center justify-center rounded-btn bg-brand-accent text-white">
+          <ShieldCheck size={22} stroke-width={2} aria-hidden="true" />
+        </span>
+        <span class="leading-tight">
+          <span class="block font-display text-sm font-extrabold uppercase tracking-wide">Meisterbetrieb</span>
+          <span class="block text-xs text-brand-muted">Geprüfte Qualität &amp; Termintreue</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>

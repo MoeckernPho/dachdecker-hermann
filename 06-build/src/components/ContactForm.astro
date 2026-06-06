@@ -1,0 +1,210 @@
+---
+import { Send, LoaderCircle, CircleCheckBig, TriangleAlert } from "@lucide/astro";
+import { legalNav } from "../data/site";
+const datenschutzHref = legalNav.find((n) => n.href === "/datenschutz")?.href ?? "/datenschutz";
+---
+
+<form id="kontakt-form" class="space-y-5" novalidate>
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label for="name" class="form-label">Name <span class="text-brand-accent">*</span></label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        required
+        autocomplete="name"
+        maxlength="120"
+        class="form-input"
+        placeholder="Ihr Name"
+      />
+    </div>
+    <div>
+      <label for="email" class="form-label">E-Mail <span class="text-brand-accent">*</span></label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        required
+        autocomplete="email"
+        maxlength="180"
+        class="form-input"
+        placeholder="name@beispiel.de"
+      />
+    </div>
+  </div>
+
+  <div>
+    <label for="phone" class="form-label">Telefon <span class="text-brand-muted">(optional)</span></label>
+    <input
+      id="phone"
+      name="phone"
+      type="tel"
+      autocomplete="tel"
+      maxlength="40"
+      class="form-input"
+      placeholder="Für einen schnellen Rückruf"
+    />
+  </div>
+
+  <div>
+    <label for="message" class="form-label">Nachricht <span class="text-brand-accent">*</span></label>
+    <textarea
+      id="message"
+      name="message"
+      required
+      rows="5"
+      maxlength="3000"
+      class="form-input resize-y"
+      placeholder="Worum geht es? Beschreiben Sie kurz Ihr Vorhaben (z. B. Neueindeckung, Reparatur, Sanierung)."
+    ></textarea>
+  </div>
+
+  {/* Honeypot: für echte Nutzer unsichtbar, nicht fokussierbar. Bots füllen es aus. */}
+  <div class="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+    <label for="homepage">Website (bitte leer lassen)</label>
+    <input id="homepage" name="homepage" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="flex items-start gap-3">
+    <input id="datenschutz" name="datenschutz" type="checkbox" required class="form-check" />
+    <label for="datenschutz" class="text-sm text-brand-muted">
+      Ich habe die <a href={datenschutzHref} class="font-semibold text-brand-accent underline">Datenschutzerklärung</a>
+      gelesen und stimme der Verarbeitung meiner Angaben zur Bearbeitung meiner Anfrage zu.
+      <span class="text-brand-accent">*</span>
+    </label>
+  </div>
+
+  <button type="submit" id="kontakt-submit" class="btn btn-primary w-full sm:w-auto">
+    <Send size={18} stroke-width={2.25} aria-hidden="true" class="js-idle" />
+    <LoaderCircle size={18} stroke-width={2.25} aria-hidden="true" class="js-busy hidden animate-spin" />
+    <span class="js-label">Anfrage senden</span>
+  </button>
+
+  {/* Statusmeldungen */}
+  <div id="form-status" role="status" aria-live="polite" class="empty:hidden">
+    <div
+      id="form-success"
+      class="hidden items-start gap-3 rounded-card border border-green-700/30 bg-green-50 p-4 text-sm text-green-900"
+    >
+      <CircleCheckBig size={20} stroke-width={2} aria-hidden="true" class="mt-0.5 shrink-0 text-green-700" />
+      <span>
+        <strong class="font-display">Vielen Dank für Ihre Anfrage!</strong>
+        Wir haben Ihre Nachricht erhalten und melden uns zeitnah bei Ihnen.
+      </span>
+    </div>
+    <div
+      id="form-error"
+      class="hidden items-start gap-3 rounded-card border border-brand-accent/30 bg-brand-accent/5 p-4 text-sm text-brand-ink"
+    >
+      <TriangleAlert size={20} stroke-width={2} aria-hidden="true" class="mt-0.5 shrink-0 text-brand-accent" />
+      <span id="form-error-text">
+        Beim Senden ist etwas schiefgelaufen. Bitte versuchen Sie es erneut oder rufen Sie uns an.
+      </span>
+    </div>
+  </div>
+</form>
+
+<style>
+  .form-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-brand-ink);
+  }
+  .form-input {
+    width: 100%;
+    border-radius: var(--radius-btn);
+    border: 1px solid var(--color-brand-border);
+    background-color: #fff;
+    padding: 0.7rem 0.9rem;
+    color: var(--color-brand-ink);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .form-input::placeholder {
+    color: color-mix(in srgb, var(--color-brand-muted) 75%, transparent);
+  }
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-brand-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-accent) 22%, transparent);
+  }
+  /* Fehlerzustand erst nach Interaktion */
+  .form-input:user-invalid,
+  .form-input[aria-invalid="true"] {
+    border-color: var(--color-brand-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-accent) 18%, transparent);
+  }
+  .form-check {
+    margin-top: 0.15rem;
+    height: 1.15rem;
+    width: 1.15rem;
+    flex-shrink: 0;
+    accent-color: var(--color-brand-accent);
+  }
+</style>
+
+<script>
+  const form = document.getElementById("kontakt-form") as HTMLFormElement | null;
+  const btn = document.getElementById("kontakt-submit") as HTMLButtonElement | null;
+  const successBox = document.getElementById("form-success");
+  const errorBox = document.getElementById("form-error");
+  const errorText = document.getElementById("form-error-text");
+
+  function setBusy(busy: boolean) {
+    if (!btn) return;
+    btn.disabled = busy;
+    btn.querySelector(".js-idle")?.classList.toggle("hidden", busy);
+    btn.querySelector(".js-busy")?.classList.toggle("hidden", !busy);
+    const label = btn.querySelector(".js-label");
+    if (label) label.textContent = busy ? "Wird gesendet …" : "Anfrage senden";
+  }
+
+  function show(el: Element | null) {
+    el?.classList.remove("hidden");
+    el?.classList.add("flex");
+  }
+  function hide(el: Element | null) {
+    el?.classList.add("hidden");
+    el?.classList.remove("flex");
+  }
+
+  if (form && btn) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      hide(errorBox);
+      hide(successBox);
+
+      // Native HTML5-Validierung zuerst
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      setBusy(true);
+      try {
+        const res = await fetch("/api/kontakt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(Object.fromEntries(new FormData(form).entries())),
+        });
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok && data.ok) {
+          show(successBox);
+          form.reset();
+          successBox?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        } else {
+          if (errorText && typeof data.error === "string") errorText.textContent = data.error;
+          show(errorBox);
+        }
+      } catch {
+        show(errorBox);
+      } finally {
+        setBusy(false);
+      }
+    });
+  }
+</script>

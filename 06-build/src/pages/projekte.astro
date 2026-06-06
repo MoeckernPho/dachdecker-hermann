@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import ProjectLightbox from "../components/ProjectLightbox.astro";
+import CtaSection from "../components/CtaSection.astro";
+import { projects } from "../data/site";
+
+const title = "Projekte & Referenzen | Dachdecker Herrmann Rackwitz";
+const description =
+  "Ausgewählte Dachprojekte des Meisterbetriebs André Herrmann im Raum Rackwitz und Leipzig: " +
+  "Neueindeckungen, Schieferarbeiten und Dachsanierungen.";
+---
+
+<BaseLayout title={title} description={description}>
+  <PageHeader
+    eyebrow="Projekte"
+    title="Referenzen aus der Region"
+    lead="Ein Auszug unserer Arbeiten. Vom neu gedeckten Steildach bis zur sanierten Schieferfassade, handwerklich sauber umgesetzt."
+  />
+
+  <section class="bg-brand-surface py-16 sm:py-20">
+    <div class="container-site">
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          projects.map((project, i) => (
+            <ProjectCard
+              project={project}
+              index={i}
+              loading={i < 3 ? "eager" : "lazy"}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <ProjectLightbox projects={projects} />
+
+  <CtaSection title="Ihr Projekt als nächste Referenz?" />
+</BaseLayout>

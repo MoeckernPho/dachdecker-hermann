@@ -1,0 +1,99 @@
+---
+import { ExternalLink, MapPin } from "@lucide/astro";
+import { nap } from "../data/site";
+
+const address = `${nap.company}, ${nap.street}, ${nap.postalCode} ${nap.city}`;
+const query = encodeURIComponent(address);
+const embedUrl = `https://www.google.com/maps?q=${query}&output=embed`;
+const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${query}`;
+---
+
+<section class="border-y border-brand-border bg-brand-surface-2 py-16 sm:py-20">
+  <div class="container-site">
+    <div class="mb-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
+      <div>
+        <p class="eyebrow text-brand-accent">Anfahrt</p>
+        <h2 class="mt-2 text-3xl sm:text-4xl">Unser Standort in Rackwitz</h2>
+        <p class="mt-3 text-brand-muted">{nap.street}, {nap.postalCode} {nap.city}</p>
+      </div>
+      <a
+        href={directionsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-outline shrink-0"
+      >
+        In Google Maps öffnen
+        <ExternalLink size={18} stroke-width={2} aria-hidden="true" />
+      </a>
+    </div>
+
+    <div
+      class="card relative aspect-[4/3] overflow-hidden sm:aspect-[16/7]"
+      data-google-map
+      data-embed-url={embedUrl}
+      data-title={`Google Maps: Standort von ${nap.company}`}
+    >
+      <div
+        class="flex h-full flex-col items-center justify-center bg-brand-paper p-6 text-center sm:p-10"
+        data-map-placeholder
+      >
+        <MapPin size={42} stroke-width={1.5} class="text-brand-accent" aria-hidden="true" />
+        <h3 class="mt-4 text-xl">Google Maps ist deaktiviert</h3>
+        <p class="mt-3 max-w-xl text-sm text-brand-muted">
+          Mit dem Laden der Karte stimmen Sie zu, dass Daten an Google übertragen werden und Google
+          gegebenenfalls Cookies setzt. Weitere Informationen finden Sie in unserer
+          <a href="/datenschutz#google-maps" class="text-brand-accent underline">Datenschutzerklärung</a>.
+        </p>
+        <button type="button" class="btn btn-primary mt-5" data-map-accept>
+          Google Maps akzeptieren und laden
+        </button>
+      </div>
+
+      <div class="hidden h-full" data-map-content>
+        <div class="absolute right-3 top-3 z-10">
+          <button type="button" class="btn btn-outline bg-brand-paper text-sm" data-map-revoke>
+            Karte deaktivieren
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const mapContainers = document.querySelectorAll<HTMLElement>("[data-google-map]");
+
+  mapContainers.forEach((container) => {
+    const placeholder = container.querySelector<HTMLElement>("[data-map-placeholder]");
+    const content = container.querySelector<HTMLElement>("[data-map-content]");
+    const acceptButton = container.querySelector<HTMLButtonElement>("[data-map-accept]");
+    const revokeButton = container.querySelector<HTMLButtonElement>("[data-map-revoke]");
+    const embedUrl = container.dataset.embedUrl;
+    const title = container.dataset.title;
+
+    if (!placeholder || !content || !acceptButton || !revokeButton || !embedUrl || !title) return;
+
+    acceptButton.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+      iframe.src = embedUrl;
+      iframe.title = title;
+      iframe.className = "h-full w-full border-0";
+      iframe.loading = "lazy";
+      iframe.referrerPolicy = "no-referrer";
+      iframe.allowFullscreen = true;
+      iframe.dataset.consentService = "google-maps";
+
+      content.prepend(iframe);
+      placeholder.classList.add("hidden");
+      content.classList.remove("hidden");
+      revokeButton.focus();
+    });
+
+    revokeButton.addEventListener("click", () => {
+      content.querySelector("iframe")?.remove();
+      content.classList.add("hidden");
+      placeholder.classList.remove("hidden");
+      acceptButton.focus();
+    });
+  });
+</script>

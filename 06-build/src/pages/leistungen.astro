@@ -1,0 +1,101 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import CtaSection from "../components/CtaSection.astro";
+import Icon from "../components/Icon.astro";
+import { ArrowRight, Check, Phone } from "@lucide/astro";
+import { services, nap } from "../data/site";
+
+const title = "Dachdeckerarbeiten & Leistungen | Dachdecker Herrmann Rackwitz";
+const description =
+  "Dachdeckerarbeiten im Raum Rackwitz und Leipzig: Ziegeleindeckungen, Schiefer-, Flach- und " +
+  "Blechdächer, Sturmschäden, Schornsteine, Dachfenster, Wärmedämmung und Holzarbeiten.";
+---
+
+<BaseLayout title={title} description={description}>
+  <PageHeader
+    eyebrow="Leistungen"
+    title="Leistungen rund um Dach und Gebäude"
+    lead="Von der Eindeckung über Dachfenster und Wärmedämmung bis zur Sturmschadenreparatur: Wir führen Dacharbeiten fachgerecht aus und beraten Sie zur passenden Lösung."
+  />
+
+  {/* Schnellübersicht */}
+  <nav aria-label="Leistungsübersicht" class="border-b border-brand-border bg-brand-surface-2">
+    <ul class="container-site flex flex-wrap gap-3 py-5">
+      {
+        services.map((service) => (
+          <li class="min-w-0">
+            <a
+              href={`#${service.slug}`}
+              class="inline-flex max-w-full items-center gap-2 rounded-btn border border-brand-border bg-white px-4 py-2 font-display text-sm font-bold text-brand-ink transition-colors [overflow-wrap:anywhere] hover:border-brand-accent hover:text-brand-accent"
+            >
+              <Icon name={service.icon} size={18} />
+              {service.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  {/* Detailabschnitte je Leistung: abwechselndes Layout */}
+  {
+    services.map((service, i) => (
+      <section
+        id={service.slug}
+        class:list={[
+          "scroll-mt-24 py-16 sm:py-20",
+          i % 2 === 0 ? "bg-brand-surface" : "bg-brand-surface-2 border-y border-brand-border",
+        ]}
+      >
+        <div class="container-site grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
+          <div class:list={["min-w-0", i % 2 === 1 && "lg:order-2"]}>
+            <span class="flex h-14 w-14 items-center justify-center rounded-btn bg-brand-ink p-3.5 text-brand-ember">
+              <Icon name={service.icon} size={28} />
+            </span>
+            <h2 class="mt-5 [overflow-wrap:anywhere] text-3xl sm:text-4xl">{service.title}</h2>
+            <p class="mt-4 text-lg text-brand-muted">{service.description}</p>
+            <a href="/kontakt" class="btn btn-primary mt-7 max-w-full [overflow-wrap:anywhere]">
+              {service.title} anfragen
+              <ArrowRight size={18} stroke-width={2.25} aria-hidden="true" />
+            </a>
+          </div>
+
+          <div class:list={[i % 2 === 1 && "lg:order-1"]}>
+            <ul class="card divide-y divide-brand-border">
+              {service.bullets.map((bullet) => (
+                <li class="flex items-start gap-3 p-4 sm:p-5">
+                  <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-accent text-white">
+                    <Check size={15} stroke-width={3} aria-hidden="true" />
+                  </span>
+                  <span class="text-brand-ink">{bullet}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  {/* Beratungs-Hinweis (alte „Beratung"-Seite integriert) */}
+  <section class="bg-brand-surface py-12">
+    <div class="container-site">
+      <div class="card flex flex-col items-start gap-4 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+        <div>
+          <h2 class="text-2xl">Persönliche Beratung</h2>
+          <p class="mt-2 text-brand-muted">
+            Sie möchten eine Arbeit besprechen oder einen Schaden melden? Rufen Sie uns an oder
+            senden Sie eine Anfrage mit den wichtigsten Angaben zu Ihrem Dach.
+          </p>
+        </div>
+        <a href={nap.phoneHref} class="btn btn-outline shrink-0">
+          <Phone size={18} stroke-width={2.25} aria-hidden="true" />
+          {nap.phoneDisplay}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CtaSection />
+</BaseLayout>

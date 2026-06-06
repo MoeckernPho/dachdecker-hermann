@@ -1,0 +1,30 @@
+---
+/**
+ * Button/Link mit konsistenten Varianten. Rendert <a> bei `href`, sonst <button>.
+ * Varianten nutzen die .btn-Klassen aus global.css.
+ */
+type Variant = "primary" | "outline" | "outline-invert";
+
+interface Props {
+  href?: string;
+  variant?: Variant;
+  type?: "button" | "submit";
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { href, variant = "primary", type = "button", class: className = "", ...rest } = Astro.props;
+const cls = `btn btn-${variant} ${className}`.trim();
+---
+
+{
+  href ? (
+    <a href={href} class={cls} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={cls} {...rest}>
+      <slot />
+    </button>
+  )
+}

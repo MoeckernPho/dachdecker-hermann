@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Prototyp C — Bauplan / Blueprint (archiviert)</title>
+    <style>
+      :root { --ink:#1a1d21; --muted:#aeb4bb; --accent:#b23a22; --line:rgba(255,255,255,.08);
+        --display:"Arial Narrow",system-ui,sans-serif; --mono:"Courier New",monospace; }
+      * { box-sizing:border-box; margin:0; padding:0; }
+      body { font-family:system-ui,-apple-system,"Segoe UI",sans-serif; color:#fff; background:#1a1d21; line-height:1.6;
+        background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size:44px 44px; }
+      .wrap { max-width:1180px; margin:0 auto; padding:0 2rem; }
+      header { border-bottom:1px solid var(--line); }
+      .nav { display:flex; align-items:center; justify-content:space-between; height:72px; font-family:var(--display); font-weight:700; text-transform:uppercase; letter-spacing:.1em; font-size:.85rem; }
+      .nav nav a { margin-left:20px; color:var(--muted); text-decoration:none; }
+      .hero { padding:90px 0; max-width:60rem; }
+      .tag { font-family:var(--mono); font-size:.8rem; color:var(--accent); border:1px solid var(--accent); display:inline-block; padding:2px 8px; }
+      h1 { font-family:var(--display); font-weight:800; font-size:4.4rem; line-height:.98; letter-spacing:-.02em; margin:22px 0; text-transform:uppercase; }
+      .stats { display:flex; gap:40px; font-family:var(--mono); color:var(--muted); border-top:1px dashed var(--line); border-bottom:1px dashed var(--line); padding:16px 0; margin:24px 0; }
+      .stats b { color:#fff; display:block; font-size:1.4rem; }
+      .cta { display:flex; gap:14px; align-items:center; margin-top:8px; font-family:var(--mono); }
+      .btn { font-family:var(--display); font-weight:700; padding:13px 22px; background:var(--accent); color:#fff; text-decoration:none; }
+      @media (max-width:860px){ h1{font-size:2.6rem;} .stats{gap:20px; flex-wrap:wrap;} }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap nav"><div>Herrmann · Meisterbetrieb</div>
+        <nav><a>Leistungen</a><a>Über uns</a><a>Projekte</a><a>Kontakt</a></nav></div>
+    </header>
+    <section>
+      <div class="wrap hero">
+        <span class="tag">∠ 30° · RACKWITZ</span>
+        <h1>Ihr Dach in Meisterhand</h1>
+        <div class="stats">
+          <div><b>100%</b> Meisterausführung</div>
+          <div><b>Rackwitz</b> &amp; Leipzig</div>
+          <div><b>Dach · Schiefer · Sanierung</b></div>
+        </div>
+        <div class="cta"><a class="btn" href="#">ANFRAGE →</a><span>Tel 0342 · 02 3000 17</span></div>
+      </div>
+    </section>
+  </body>
+</html>

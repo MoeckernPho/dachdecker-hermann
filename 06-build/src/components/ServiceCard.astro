@@ -1,0 +1,37 @@
+---
+import { ArrowRight } from "@lucide/astro";
+import Icon from "./Icon.astro";
+import type { Service } from "../data/site";
+
+interface Props {
+  service: Service;
+  /** Link auf den Detailabschnitt der Leistungsseite. */
+  href?: string;
+}
+const { service, href = `/leistungen#${service.slug}` } = Astro.props;
+---
+
+<article
+  class="card group flex h-full min-w-0 flex-col p-6 transition-shadow hover:shadow-card sm:p-7"
+>
+  <span
+    class="flex h-13 w-13 items-center justify-center rounded-btn bg-brand-ink p-3 text-brand-ember transition-colors group-hover:bg-brand-accent group-hover:text-white"
+  >
+    <Icon name={service.icon} size={26} />
+  </span>
+  <h3 class="mt-5 [overflow-wrap:anywhere] text-xl text-brand-ink">{service.title}</h3>
+  <p class="mt-2 flex-1 text-brand-muted">{service.short}</p>
+  <a
+    href={href}
+    class="mt-5 inline-flex items-center gap-2 font-display text-sm font-bold text-brand-accent transition-colors hover:text-brand-accent-strong"
+  >
+    Mehr erfahren
+    <ArrowRight
+      size={16}
+      stroke-width={2.25}
+      aria-hidden="true"
+      class="transition-transform group-hover:translate-x-1"
+    />
+    <span class="sr-only">über {service.title}</span>
+  </a>
+</article>

@@ -1,0 +1,46 @@
+---
+/**
+ * Zentrale Icon-Brücke: bildet die semantischen IconName-Tokens aus site.ts auf
+ * konkrete Lucide-Komponenten ab. So bleibt der Icon-Stil über die ganze Seite
+ * konsistent (ein Pack: Lucide).
+ */
+import {
+  Award,
+  BrickWall,
+  Clock,
+  CloudLightning,
+  Hammer,
+  House,
+  Layers,
+  MapPin,
+  ShieldCheck,
+  TreePine,
+} from "@lucide/astro";
+import type { IconName } from "../data/site";
+
+interface Props {
+  name: IconName;
+  size?: number;
+  class?: string;
+  strokeWidth?: number;
+}
+
+const { name, size = 24, class: className, strokeWidth = 1.75 } = Astro.props;
+
+const map = {
+  roof: House,
+  slate: Layers,
+  renovation: Hammer,
+  storm: CloudLightning,
+  chimney: BrickWall,
+  wood: TreePine,
+  shield: ShieldCheck,
+  clock: Clock,
+  "map-pin": MapPin,
+  award: Award,
+} as const;
+
+const Cmp = map[name];
+---
+
+<Cmp size={size} class={className} stroke-width={strokeWidth} aria-hidden="true" />
