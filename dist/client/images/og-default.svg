@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Dachdeckermeisterbetrieb André Herrmann">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#23282f"/><stop offset="1" stop-color="#1a1d21"/></linearGradient></defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <pattern id="s" width="44" height="24" patternUnits="userSpaceOnUse"><path d="M0 24 L22 6 L44 24" fill="none" stroke="#fff" stroke-opacity="0.035" stroke-width="1.4"/></pattern>
+  <rect width="1200" height="630" fill="url(#s)"/>
+  <circle cx="1040" cy="120" r="150" fill="#d9694b" fill-opacity="0.15"/>
+  <g transform="translate(90,150)">
+    <rect x="0" y="0" width="64" height="64" rx="10" fill="#b23a22"/>
+    <path d="M14 44 L32 22 L50 44" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M22 48 h20" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <g font-family="Arial, sans-serif" fill="#fff">
+    <text x="90" y="320" font-size="76" font-weight="800" letter-spacing="-1">Ihr Dach in Meisterhand</text>
+    <text x="90" y="385" font-size="30" fill="#aeb4bb">Dachdecker · Schiefer · Sanierung | Rackwitz &amp; Leipzig</text>
+    <text x="90" y="470" font-size="26" fill="#d9694b" font-weight="700" letter-spacing="2">DACHDECKERMEISTERBETRIEB ANDRÉ HERRMANN</text>
+  </g>
+</svg>
